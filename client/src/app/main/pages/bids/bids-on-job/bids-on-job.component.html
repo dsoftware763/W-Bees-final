@@ -1,0 +1,61 @@
+<div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+
+    <div class="course web card-head" *ngFor="let bid of bidsList" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33"
+        [@animate]="{value:'*',params:{y:'100%'}}">
+
+        <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+            <div class="header web-bg" fxLayout="row" fxLayoutAlign="center center">
+
+                <div class="category job-title" fxFlex>
+                    Bid id : {{bid && bid.id}}
+                </div>
+                <div class="job-price">Bid price : {{bid.price}}</div>
+                <!-- <div class="length" fxLayout="row" fxLayoutAlign="center center">
+                    <div class="min job-status"> Bid Status : {{bid.status}} </div>
+                </div> -->
+
+            </div>
+
+            <div class="content" fxLayout="column" fxFlex="1 1 auto">
+                <div class="pb-16 bottom-line" fxLayout="row" fxLayoutAlign="start center">
+                    <img *ngIf="bid.bidder.profilePic === null" class="avatar mr-0 mr-sm-16" src="assets/images/avatars/profile.jpg">
+                    <img *ngIf="bid.bidder.profilePic !== null" class="avatar mr-0 mr-sm-16" src='{{API}}{{bid.bidder && bid.bidder.profilePic}}'>
+                    <div class="h2 secondary-text bidder-name">{{bid.bidder && bid.bidder.name}}</div>
+                    <div class="h2 secondary-text bidder-email">{{bid.bidder && bid.bidder.email}}</div>
+                </div> <br>
+                <!-- <div class="bottom-line" fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="0 1 auto" fxLayoutAlign="center center">
+                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/Velazquez.jpg">
+                    </div>
+                    <div fxLayout="row" fxFlex>
+                        <div class="h2 secondary-text">Name</div>
+                        <div class="h2 secondary-text">Customer</div>
+                    </div>
+                </div> <br> -->
+
+                <div class="updated">{{bid && bid.description}}</div>
+            </div>
+
+            <div class="footer start-btn" *ngIf="bid && bid.status === 'pending'" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-button color="accent" (click)="acceptBid(bid.id)">
+                    Accept
+                </button>
+                <button mat-button color="accent" (click)="declineBid(bid.id)">
+                    Decline
+                </button>
+            </div>
+
+            <div class="footer start-btn status-btn" *ngIf="bid && bid.status !== 'pending'">
+                <button mat-button color="primary" (click)="acceptBid(bid.id)">
+                    {{bid && bid.status | uppercase}}
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="no-courses" *ngIf="bidsList && bidsList.length === 0">
+        No bids found for this job!
+    </div>
+</div>

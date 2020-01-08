@@ -1,0 +1,5 @@
+rm -rf client/dist
+npm run build-prod --prefix=client
+rm -rf public/*
+cp -r client/dist/fuse/. public/
+mkdir public/uploads

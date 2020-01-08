@@ -1,0 +1,37 @@
+<!-- <p>seeker-job-card works!</p> -->
+<!-- <p>{{data}}</p> -->
+<div class="courses" fxLayout="row wrap" fxLayoutAlign="center" [@animateStagger]="{value:'50'}">
+
+    <div class="course web card-head" *ngFor="let job of jobs" fxFlex="100" fxFlex.gt-xs="50"
+            fxFlex.gt-sm="33" [@animate]="{value:'*',params:{y:'100%'}}">
+
+        <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+            <div class="header web-bg" fxLayout="row" fxLayoutAlign="center center">
+
+                <div class="category job-title" fxFlex>
+                   Job Title : {{job.title}}
+                </div>
+                <div class="job-price">Job price : {{job.price}}</div>
+                <div class="length" fxLayout="row" fxLayoutAlign="center center">
+                    <div class="min job-status"> Job Status : {{job.status}} </div>
+                </div>
+
+            </div>
+
+            <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+
+                <div class="updated">{{job.description}}</div>
+            </div>
+
+            <div class="footer start-btn" fxLayout="row" fxLayoutAlign="center center">
+                <button mat-button color="accent"
+                        [routerLink]="['/bidder/job-details', job.id]">
+                    Details
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
