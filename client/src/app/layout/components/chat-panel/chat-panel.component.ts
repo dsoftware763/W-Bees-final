@@ -10,13 +10,12 @@ import { FusePerfectScrollbarDirective } from '@fuse/directives/fuse-perfect-scr
 import { ChatPanelService } from 'app/layout/components/chat-panel/chat-panel.service';
 import { environment } from 'environments/environment';
 @Component({
-    selector     : 'chat-panel',
-    templateUrl  : './chat-panel.component.html',
-    styleUrls    : ['./chat-panel.component.scss'],
+    selector: 'chat-panel',
+    templateUrl: './chat-panel.component.html',
+    styleUrls: ['./chat-panel.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
-{
+export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy {
     API = environment.API;
     dummyPic = 'assets/images/avatars/profile.jpg';
     contacts: any[];
@@ -29,11 +28,12 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     wbChat: any;
     wbUser: any;
     wbUserId: any;
+    authToken: any;
 
-    @ViewChild('replyForm', {static: false})
+    @ViewChild('replyForm', { static: false })
     private _replyForm: NgForm;
 
-    @ViewChild('replyInput', {static: false})
+    @ViewChild('replyInput', { static: false })
     private _replyInput: ElementRef;
 
     @ViewChildren(FusePerfectScrollbarDirective)
@@ -54,8 +54,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         private _chatPanelService: ChatPanelService,
         private _httpClient: HttpClient,
         private _fuseSidebarService: FuseSidebarService
-    )
-    {
+    ) {
         // Set the defaults
         this.selectedContact = null;
         this.sidebarFolded = true;
@@ -71,14 +70,13 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // get userId from localStorage
-        if (localStorage.getItem('user-details') !== undefined){
+        if (localStorage.getItem('user-details') !== undefined) {
             this.wbUserId = JSON.parse(localStorage.getItem('user-details')).id;
+            this.authToken = localStorage.getItem('feathers-jwt');
             this._chatPanelService.wbLoadContacts(this.wbUserId).then(() => {
                 this.wbContacts = this._chatPanelService.wbContacts;
-                console.log('wbContacts component: ', this.wbContacts);
             });
         }
         // Load the contacts
@@ -99,8 +97,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * After view init
      */
-    ngAfterViewInit(): void
-    {
+    ngAfterViewInit(): void {
         this._chatViewScrollbar = this._fusePerfectScrollbarDirectives.find((directive) => {
             return directive.elementRef.nativeElement.id === 'messages';
         });
@@ -109,8 +106,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -123,16 +119,14 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Prepare the chat for the replies
      */
-    private _prepareChatForReplies(): void
-    {
+    private _prepareChatForReplies(): void {
         setTimeout(() => {
 
             // Focus to the reply input
             // this._replyInput.nativeElement.focus();
 
             // Scroll to the bottom of the messages list
-            if ( this._chatViewScrollbar )
-            {
+            if (this._chatViewScrollbar) {
                 this._chatViewScrollbar.update();
 
                 setTimeout(() => {
@@ -149,24 +143,21 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Fold the temporarily unfolded sidebar back
      */
-    foldSidebarTemporarily(): void
-    {
+    foldSidebarTemporarily(): void {
         this._fuseSidebarService.getSidebar('chatPanel').foldTemporarily();
     }
 
     /**
      * Unfold the sidebar temporarily
      */
-    unfoldSidebarTemporarily(): void
-    {
+    unfoldSidebarTemporarily(): void {
         this._fuseSidebarService.getSidebar('chatPanel').unfoldTemporarily();
     }
 
     /**
      * Toggle sidebar opened status
      */
-    toggleSidebarOpen(): void
-    {
+    toggleSidebarOpen(): void {
         this._fuseSidebarService.getSidebar('chatPanel').toggleOpen();
     }
 
@@ -177,11 +168,10 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      * @param i
      * @returns {boolean}
      */
-    shouldShowContactAvatar(message, i): boolean
-    {
+    shouldShowContactAvatar(message, i): boolean {
         return (
             message.who === this.selectedContact.id &&
-            ((this.chat.dialog[i + 1] && this.chat.dialog[i + 1].who !== this.selectedContact.id) || !this.chat.dialog[i + 1])
+            ((this.chat[i + 1] && this.chat[i + 1].who !== this.selectedContact.id) || !this.chat[i + 1])
         );
     }
 
@@ -192,9 +182,8 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      * @param i
      * @returns {boolean}
      */
-    isFirstMessageOfGroup(message, i): boolean
-    {
-        return (i === 0 || this.chat.dialog[i - 1] && this.chat.dialog[i - 1].who !== message.who);
+    isFirstMessageOfGroup(message, i): boolean {
+        return (i === 0 || this.chat[i - 1] && this.chat[i - 1].who !== message.who);
     }
 
     /**
@@ -204,9 +193,8 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      * @param i
      * @returns {boolean}
      */
-    isLastMessageOfGroup(message, i): boolean
-    {
-        return (i === this.chat.dialog.length - 1 || this.chat.dialog[i + 1] && this.chat.dialog[i + 1].who !== message.who);
+    isLastMessageOfGroup(message, i): boolean {
+        return (i === this.chat.length - 1 || this.chat[i + 1] && this.chat[i + 1].who !== message.who);
     }
 
     /**
@@ -214,21 +202,17 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      *
      * @param contact
      */
-    toggleChat(contact): void
-    {
-        console.log('contact', contact);
+    toggleChat(contact): void {
         // If the contact equals to the selectedContact,
         // that means we will deselect the contact and
         // unload the chat
-        if ( this.selectedContact && contact.id === this.selectedContact.id )
-        {
+        if (this.selectedContact && contact.id === this.selectedContact.id) {
             // Reset
             this.resetChat();
         }
         // Otherwise, we will select the contact, open
         // the sidebar and start the chat
-        else
-        {
+        else {
             // Unfold the sidebar temporarily
             this.unfoldSidebarTemporarily();
 
@@ -236,10 +220,13 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
             this.selectedContact = contact;
 
             // Load the chat
-            this._chatPanelService.getChat(contact.id).then((chat) => {
+            // this._chatPanelService.getChat(contact.id).then((chat) => {
+            this._chatPanelService.wbGetChat(contact.id).then(() => {
 
                 // Set the chat
-                this.chat = chat;
+                // this.chat = chat;
+
+                this.getChatList(this.selectedContact.id);
 
                 // Prepare the chat for the replies
                 this._prepareChatForReplies();
@@ -250,8 +237,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Remove the selected contact and unload the chat
      */
-    resetChat(): void
-    {
+    resetChat(): void {
         // Set the selected contact as null
         this.selectedContact = null;
 
@@ -262,33 +248,53 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Reply
      */
-    reply(event): void
-    {
+    reply(event): void {
         event.preventDefault();
 
-        if ( !this._replyForm.form.value.message )
-        {
+        if (!this._replyForm.form.value.message) {
             return;
         }
 
         // Message
         const message = {
-            who    : this.user.id,
-            message: this._replyForm.form.value.message,
-            time   : new Date().toISOString()
+            messageText: this._replyForm.form.value.message,
+            status: 'sent',
+            sender: this.wbUserId,
+            receiver: this.selectedContact.details.id,
+            conversationId: this.selectedContact.id
         };
+        // const message = {
+        //     who    : this.user.id,
+        //     message: this._replyForm.form.value.message,
+        //     time   : new Date().toISOString()
+        // };
 
         // Add the message to the chat
-        this.chat.dialog.push(message);
+        // this.chat.dialog.push(message);
+        this._chatPanelService.sendMessage(message, this.authToken).then(() => {
+            // Reset the reply form
+            this._replyForm.reset();
 
-        // Reset the reply form
-        this._replyForm.reset();
+            this.getChatList(this.selectedContact.id);
+            // this._chatPanelService.wbGetChat(message.conversationId).then(() => {
+            //     this.chat = this._chatPanelService.chats;
+            // });
+
+        });
+
+
 
         // Update the server
         this._chatPanelService.updateChat(this.chat.id, this.chat.dialog).then(response => {
 
             // Prepare the chat for the replies
             this._prepareChatForReplies();
+        });
+    }
+
+    getChatList = (conversationId) => {
+        this._chatPanelService.wbGetChat(conversationId).then(() => {
+            this.chat = this._chatPanelService.chats;
         });
     }
 }

@@ -55,9 +55,14 @@ export class ChatPanelService
         });
     }
 
-    wbLoadContacts = ($userId) => {
+    wbLoadContacts = (userId) => {
         return this.feathers.find('conversations', {
-            id: $userId
+            query: {
+                    $or: [
+                    {senderId: userId},
+                    {receiverId: userId}
+                ]
+            }
         }).then(res => {
             this.wbContacts = res;
             console.log('chat-service res: ', res);
@@ -65,6 +70,24 @@ export class ChatPanelService
             console.log('chat-service err: ', err);
         });
     }
+
+    /**
+     * Send message
+     * @param contactId
+     *
+     */
+
+     sendMessage(message: any, auth: any): Promise<any>
+     {
+        console.log('message send: ', message.conversationId);
+        return this.feathers.create('messages', {...message})
+        .then(res => {
+            console.log('message response: ', message.conversationId);
+            // this.wbGetChat(message.conversationId);
+         }, err => {
+            console.log('message response err: ', err);
+         });
+     }
 
     /**
      * Get chat
@@ -103,6 +126,16 @@ export class ChatPanelService
                     });
                 });
             }
+        });
+    }
+
+    wbGetChat = (contactId) => {
+        return this.feathers.find('messages', { query: { conversationId: contactId }})
+        .then(res => {
+            this.chats = res;
+            console.log('Chat :', res);
+        }, err => {
+            console.log('Chat error: ', err);
         });
     }
 

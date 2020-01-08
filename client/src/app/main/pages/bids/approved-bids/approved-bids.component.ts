@@ -9,7 +9,7 @@ export class ApprovedBidsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
 }

@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit
         });
         this.feathers.reAuthenticate()
         .then(res => {
-            this.router.navigate(['/dashboard']);
+            this.router.navigate(['/jobs']);
         }).catch(err => {
         });
     }
@@ -81,7 +81,11 @@ export class LoginComponent implements OnInit
             ...loginData
         }).then(res => {
             localStorage.setItem('user-details', JSON.stringify(res.user));
-            this.router.navigate(['/dashboard']);
+            if (res.user.role === 'provider'){
+                this.router.navigate(['/jobs']);
+            }else{
+                this.router.navigate(['/bidder']);
+            }
             this.snakbar.success('You logged in successfully.');
         }, err => {
             this.snakbar.error(err.message);

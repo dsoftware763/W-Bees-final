@@ -86,10 +86,10 @@ const appRoutes: Routes = [
         path: 'bidder',
         loadChildren: './main/bidderModel/bidder-module.module#BidderModule'
     },
-    {
-        path: 'dashboard',
-        redirectTo: 'dashboard'
-    },
+    // {
+    //     path: 'dashboard',
+    //     redirectTo: 'dashboard'
+    // },
     {
         path: 'profile',
         loadChildren: './main/common-components/profile/profile.module#ProfileModule'

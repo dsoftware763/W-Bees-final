@@ -70,11 +70,11 @@
 
         <div id="messages" class="messages" fxFlex="1 1 auto" fusePerfectScrollbar>
 
-            <ng-container *ngIf="chat && chat.dialog && chat.dialog.length > 0">
+            <ng-container *ngIf="chat && chat.length > 0">
 
-                <div *ngFor="let message of chat.dialog; let i = index" class="message-row" [ngClass]="{
-                            'me': message.who === user.id,
-                            'contact': message.who !== user.id,
+                <div *ngFor="let message of chat; let i = index" class="message-row" [ngClass]="{
+                            'me': message.sender === wbUserId,
+                            'contact': message.sender !== wbUserId,
                             'first-of-group': isFirstMessageOfGroup(message, i),
                             'last-of-group': isLastMessageOfGroup(message, i)
                             }">
@@ -82,15 +82,15 @@
                     <img *ngIf="shouldShowContactAvatar(message, i)" src="{{selectedContact.avatar}}" class="avatar">
 
                     <div class="bubble">
-                        <div class="message">{{message.message}}</div>
-                        <div class="time secondary-text">{{message.time | date:'short'}}</div>
+                        <div class="message">{{message.messageText}}</div>
+                        <div class="time secondary-text">{{message.createdAt | date:'short'}}</div>
                     </div>
 
                 </div>
 
             </ng-container>
 
-            <ng-container *ngIf="selectedContact && chat && chat.dialog && chat.dialog.length === 0">
+            <ng-container *ngIf="selectedContact && chat && chat.length === 0">
 
                 <div class="no-messages-icon">
                     <mat-icon class="s-128 fade-text">chat</mat-icon>

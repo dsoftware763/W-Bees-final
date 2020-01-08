@@ -16,6 +16,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 const jobRoutes: Routes = [
     {
+        path        : '',
+        component   : MyJobsComponent
+    },
+    {
         path        : 'my-jobs',
         component   : MyJobsComponent
     },
