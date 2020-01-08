@@ -1,0 +1,52 @@
+<div id="jobPost" fxLayout="column">
+    <div id="jobPost-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+        <div id="jobPost-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
+
+            <div class="title">CREATE A NEW JOB</div>
+            <form name="jobsForm" [formGroup]="jobsForm" (ngSubmit)="postNewJob(jobsForm.value)" novalidate>
+                <mat-form-field appearance="outline">
+                    <mat-label>Job Title</mat-label>
+                    <input matInput formControlName="title">
+                    <mat-error *ngIf="jobsForm.get('title').hasError('required')">
+                        *Job title is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Job Category</mat-label>
+                    <mat-select formControlName="categoryId">
+                        <mat-option>None</mat-option>
+                        <mat-option value="1">Cleaning</mat-option>
+                        <mat-option value="2">Moving</mat-option>
+                        <mat-option value="3">Maintenance</mat-option>
+                        <mat-option value="4">Gardening</mat-option>
+                        <mat-option value="5">Pet-Setting</mat-option>
+                        <mat-option value="6">Furniture Assembly</mat-option>
+                        <mat-option value="7">Packing</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="jobsForm.get('categoryId').hasError('required')">
+                        *Job category is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Job Description</mat-label>
+                    <textarea matInput formControlName="description" placeholder="Add job description here"></textarea>
+                    <mat-error *ngIf="jobsForm.get('title').hasError('required')">
+                        *Job description is required
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                    <mat-label>Job Price</mat-label>
+                    <input matInput type="number" formControlName="price">
+                    <mat-error *ngIf="jobsForm.get('price').hasError('required')">
+                        *Job price is required
+                    </mat-error>
+                </mat-form-field>
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="POST NEW JOB"
+                    [disabled]="jobsForm.invalid">
+                    POST NEW JOB
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

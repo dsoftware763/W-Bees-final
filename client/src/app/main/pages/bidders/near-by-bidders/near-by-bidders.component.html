@@ -1,0 +1,85 @@
+<div id="dashboard-project" class="page-layout simple right-sidebar" fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fusePerfectScrollbar>
+
+        <!-- HEADER -->
+        <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
+
+            <div fxLayout="row" fxLayoutAlign="space-between start">
+
+                <span class="mat-display-1 my-0 my-sm-24 welcome-message"
+                    [@animate]="{value:'*',params:{x:'50px'}}">Near by bidders
+                </span>
+            </div>
+        </div>
+        <!-- / HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content-card">
+            <div class="course web card-head" fxFlex="100" fxFlex.gt-xs="50"
+                fxFlex.gt-sm="33" [@animate]="{value:'*',params:{y:'100%'}}">
+
+                <!-- <div class="course-content" fxLayout="column" fxFlex="1 1 auto">
+
+                    <div class="header web-bg" fxLayout="row" fxLayoutAlign="center center">
+
+                        <div class="category job-title" fxFlex>
+                            Job Title : {{bidder.username}}
+                        </div>
+                        <div class="length" fxLayout="row" fxLayoutAlign="center center">
+                            <div class="min job-status"> Job Status : {{bidder.zipcode}} </div>
+                        </div>
+
+                    </div>
+
+                    <div class="content" fxLayout="column" fxLayoutAlign="center center" fxFlex="1 1 auto">
+
+                        <div class="updated">{{bidder.email}}</div>
+                    </div> -->
+
+                    <!-- <div class="footer start-btn" fxLayout="row" fxLayoutAlign="center center">
+                        <button mat-button color="accent" [routerLink]="['/bidder/job-details', job.id]">
+                            Details
+                        </button>
+                    </div> -->
+
+                <!-- </div> -->
+
+                <mat-card class="content-card" *ngFor="let bidder of bidders">
+                    <mat-card-header>
+                        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                        <img mat-card-avatar class="example-header-image" *ngIf="bidder.profilePic === null" src="assets/images/avatars/profile.jpg">
+                        <img mat-card-avatar class="example-header-image" *ngIf="bidder.profilePic !== null"src='{{API}}{{bidder.profilePic}}'>
+                        <mat-card-title>{{bidder.username}}</mat-card-title>
+                        <mat-card-subtitle>{{bidder.email}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                        alt="Photo of a Shiba Inu">
+                    <mat-card-content>
+                        <p>
+                            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from
+                            Japan.
+                            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was
+                            originally
+                            bred for hunting.
+                        </p>
+                    </mat-card-content> -->
+                    <mat-card-actions>
+                        <div class="card-bottom">
+                            <button mat-raised-button color="primary" (click)="connectToBidder(bidder.id)">Connect</button>
+                            <div>
+                                <mat-icon>location_on</mat-icon>{{(bidder.distance / 1000).toFixed(2)}} KM
+                            </div>
+                        </div>
+                    </mat-card-actions>
+                </mat-card>
+
+                <div class="no-courses" *ngIf="bidders && bidders.length === 0">
+                    No job found!
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
