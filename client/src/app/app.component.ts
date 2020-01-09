@@ -16,7 +16,7 @@ import { locale as navigationEnglish } from 'app/navigation/i18n/en';
 import { locale as navigationTurkish } from 'app/navigation/i18n/tr';
 
 import { Feathers } from 'feather.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app',
@@ -52,7 +52,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _platform: Platform,
         private _feathers: Feathers,
-        private router: Router
+        private router: Router,
+        private activatedRoute: ActivatedRoute
     ) {
         // Get default navigation
 
@@ -182,7 +183,16 @@ export class AppComponent implements OnInit, OnDestroy {
         this._feathers.reAuthenticate()
             .then(res => {
             }).catch(err => {
-                this.router.navigate(['/']);
+                const url = this.router.url;
+                console.log('url...', url.includes('/verify'));
+                if (this.router.url.includes('/register') ||
+                    this.router.url.includes('/reset') ||
+                    url.includes('/verify')
+                ) {
+                    return;
+                } else {
+                    this.router.navigate(['/']);
+                }
             });
     }
 }

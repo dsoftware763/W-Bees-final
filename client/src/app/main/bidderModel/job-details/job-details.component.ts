@@ -39,10 +39,8 @@ export class JobDetailsComponent implements OnInit {
 
   getJobDetails(): void {
     this.feather.get('jobs', this.jobId).then(res => {
-        // console.log('job-details: ', res);
         this.jobDetails = res;
     }, err => {
-        console.log('err', err);
     });
   }
 
@@ -54,7 +52,6 @@ export class JobDetailsComponent implements OnInit {
       this.snakbar.success('Your bid for job: ' + this.jobDetails.title + ' submitted succesfully.');
       this.router.navigate(['/bidder/near-by-jobs']);
     }, err => {
-        console.log('err', err);
         this.snakbar.error(err.message);
     });
 

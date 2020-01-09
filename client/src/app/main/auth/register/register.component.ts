@@ -6,8 +6,6 @@ import { takeUntil } from 'rxjs/internal/operators';
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
 import { Feathers } from 'feather.service';
-// const feathers = require('@feathersjs/feathers');
-// const app = feathers();
 import { Router } from '@angular/router';
 
 import { SnakBarService } from '../../../services/snak-bar.service';
@@ -97,22 +95,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     getCurrentPosition = () => {
         if (navigator.geolocation) {
-            console.log('Enter in navigator.geolocation');
             navigator.geolocation.getCurrentPosition(position => {
                 this.location.coordinates = [
                     position.coords.latitude,
                     position.coords.longitude
                 ];
-                // this.location.coordinates = [
-                //     28.7041,
-                //     77.1025
-                // ];
-                console.log('pos', this.location);
             });
         } else {
-            console.log('Navigator.geolocation not working');
             this.location.coordinates = [0, 0];
-            console.log('else pos', this.location);
         }
     }
 
@@ -130,12 +120,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
             password: registerFormData.password,
             passwordConfirm: registerFormData.passwordConfirm
         };
-        console.log('registerForm', newForm);
         this.feathers.create('users', {
             ...newForm
         }).then(res => {
             this.snakBarService.success('Congratulations!!!, Your account verification email is sent to the email address you provided.');
-            // setTimeout(() => { this.router.navigate(['/login']); }, 2000);
         }, err => {
             this.snakBarService.error(err.message);
         });

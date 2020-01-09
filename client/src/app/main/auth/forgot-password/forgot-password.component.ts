@@ -79,7 +79,6 @@ export class ForgotPasswordComponent implements OnInit
                 email: data.email,
             }
         }).then(res => {
-            console.log(res);
             if (this.requestResult !== undefined){
                 this.requestId = this.requestResult['id'];
                 this.snakbar.success('You can reset your password.');

@@ -44,7 +44,6 @@ export class ProfileAboutComponent implements OnInit, OnDestroy
     {
         if (localStorage.getItem('user-details')) {
             this.userData = JSON.parse(localStorage.getItem('user-details'));
-            console.log('user-details toolbar', this.userData);
         }
 
         this._profileService.aboutOnChanged

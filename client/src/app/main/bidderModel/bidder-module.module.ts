@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { NearByJobsComponent } from './near-by-jobs/near-by-jobs.component';
 import { SeekerApprovedJobsComponent } from './seeker-approved-jobs/seeker-approved-jobs.component';
-import { SeekerPendingJobsComponent } from './seeker-pending-jobs/seeker-pending-jobs.component';
+import { SeekerBidsComponent } from './seeker-bids/seeker-bids.component';
 import { SeekerJobCardComponent } from '../common-components/seeker-job-card/seeker-job-card.component';
 import { JobDetailsComponent } from './job-details/job-details.component';
 import { MatIconModule, MatExpansionModule, MatTabsModule, MatFormFieldModule, MatSelectModule, MatButtonModule, MatInputModule, MatTableModule } from '@angular/material';
@@ -23,8 +23,8 @@ const bidderRoute: Routes = [
         component: SeekerApprovedJobsComponent
     },
     {
-        path: 'pending-bids',
-        component: SeekerPendingJobsComponent
+        path: 'my-bids',
+        component: SeekerBidsComponent
     },
     {
         path: 'job-details/:id',
@@ -36,7 +36,7 @@ const bidderRoute: Routes = [
   declarations: [
       NearByJobsComponent,
       SeekerApprovedJobsComponent,
-      SeekerPendingJobsComponent,
+      SeekerBidsComponent,
       SeekerJobCardComponent,
       JobDetailsComponent
   ],

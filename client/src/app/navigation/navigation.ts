@@ -53,18 +53,18 @@ export const navigationSeeker: FuseNavigation[] = [
             }
         ]
     },
-    // {
-    //     id       : 'bids',
-    //     title    : 'Bids',
-    //     type     : 'group',
-    //     children : [
-    //         {
-    //             id       : 'my-bids',
-    //             title    : 'My Bids',
-    //             type     : 'item',
-    //             icon     : 'email',
-    //             url      : '/bidder/pending-bids',
-    //         }
-    //     ]
-    // }
+    {
+        id       : 'bids',
+        title    : 'Bids',
+        type     : 'group',
+        children : [
+            {
+                id       : 'my-bids',
+                title    : 'My Bids',
+                type     : 'item',
+                icon     : 'email',
+                url      : '/bidder/my-bids',
+            }
+        ]
+    }
 ];

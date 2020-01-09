@@ -1,0 +1,31 @@
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="bid_on">
+            <th mat-header-cell *matHeaderCellDef> Bid On </th>
+            <td mat-cell *matCellDef="let bid"> {{bid.createdAt | date:'medium'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="job_id">
+            <th mat-header-cell *matHeaderCellDef class="bidId"> Job Id </th>
+            <td mat-cell *matCellDef="let bid" class="bidId"> {{bid.jobId}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef class="price"> Bid Price </th>
+            <td mat-cell *matCellDef="let bid" class="price"> {{bid.price}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef class="status"> Status </th>
+            <td mat-cell *matCellDef="let bid" [ngClass]="bid.status" class="status"> {{bid.status | uppercase}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Bid Description </th>
+            <td mat-cell *matCellDef="let bid"> {{bid.description}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

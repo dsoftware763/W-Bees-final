@@ -31,7 +31,6 @@ export class MyJobsComponent implements OnInit {
     })
     .then(res => {
         this.myJobs = res;
-        console.log('res', res);
     }, err => {
         console.log('err', err);
     });

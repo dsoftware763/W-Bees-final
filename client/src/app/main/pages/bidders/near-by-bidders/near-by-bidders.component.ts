@@ -43,7 +43,6 @@ export class NearByBiddersComponent implements OnInit {
         })
         .then(res => {
             this.bidders = res;
-            console.log('res bidders ', res);
         }, err => {
             console.log('bidders err', err);
         });
@@ -51,20 +50,17 @@ export class NearByBiddersComponent implements OnInit {
 
     connectToBidder = ($id) => {
         const roomId = this.userDetails.id + '_' + $id;
-        console.log('ID', roomId);
         this.feather.create('conversations', {
             roomId,
             senderId: this.userDetails.id,
             receiverId: $id
         })
         .then(res => {
-            console.log('res', res);
             if (res.roomId){
                 this.snakbar.success('Your connection is established successfully.');
                 // this.connected = true;
             }
         }, err => {
-            console.log('err', err);
             this.snakbar.success(err.message);
         });
     }

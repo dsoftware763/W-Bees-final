@@ -2,10 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { FuseConfigService } from '@fuse/services/config.service';
 import { fuseAnimations } from '@fuse/animations';
-import feathers from '@feathersjs/feathers';
-// import { Feathers } from 'feather.service';
-// const feathers = require('@feathersjs/feathers');
-// const app = feathers();
+import { Feathers } from 'feather.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SnakBarService } from '../../../services/snak-bar.service';
 import { FormGroup, Validators, FormBuilder, ValidationErrors, ValidatorFn, AbstractControl } from '@angular/forms';
@@ -18,7 +15,6 @@ import { FormGroup, Validators, FormBuilder, ValidationErrors, ValidatorFn, Abst
   animations   : fuseAnimations
 })
 export class ResetComponent implements OnInit {
-  private _feathers = feathers();
 
   token: any;
   newPasswordForm: FormGroup;
@@ -28,7 +24,7 @@ export class ResetComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private snakBar: SnakBarService,
-    // private feathers: Feathers
+    private feathers: Feathers
   ) {
         this._fuseConfigService.config = {
             layout: {
@@ -49,7 +45,6 @@ export class ResetComponent implements OnInit {
 
         this.activatedRoute.queryParams.subscribe(params => {
             this.token = params['token'];
-            console.log('token', this.token); // Print the parameter to the console.
         });
    }
 
@@ -61,8 +56,7 @@ export class ResetComponent implements OnInit {
   }
 
   setNewPassword = (newPass) => {
-    console.log('pass', newPass);
-    this._feathers.service('authManagement').create({
+    this.feathers.create('authManagement', {
         action: 'resetPwdLong',
         value: {
             token: this.token,

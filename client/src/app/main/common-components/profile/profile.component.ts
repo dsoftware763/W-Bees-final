@@ -55,7 +55,6 @@ export class ProfileComponent implements OnChanges, OnInit {
                 this.profileImageSrc = this.API + this.userDetails.profilePic;
             }
 
-            console.log('user-details toolbar', this.userDetails);
         }
 
         if (localStorage.getItem('feathers-jwt')){
@@ -67,7 +66,6 @@ export class ProfileComponent implements OnChanges, OnInit {
     }
 
     handleProfileUpdate = () => {
-        console.log('update', this.profileOne.value);
         if (this.editProfile) {
             // this.editProfile = !this.editProfile;
             this.feathers.patch('users', {
@@ -78,7 +76,6 @@ export class ProfileComponent implements OnChanges, OnInit {
                 }
             })
             .then(res => {
-                console.log('res handleProfile', res);
                 this.editProfile = !this.editProfile;
                 localStorage.setItem('user-details', JSON.stringify(res));
                 this.snakbar.success('Your profile is updated successfully');
@@ -88,7 +85,6 @@ export class ProfileComponent implements OnChanges, OnInit {
             });
         } else {
             this.editProfile = !this.editProfile;
-            console.log('update', this.editProfile);
         }
     }
 

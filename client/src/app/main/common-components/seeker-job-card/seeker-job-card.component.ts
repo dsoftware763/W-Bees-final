@@ -23,11 +23,9 @@ export class SeekerJobCardComponent implements OnInit {
     }
 
     ngOnChange(changes: SimpleChange): void {
-        console.log('Jobs Data', this.jobs);
 
     }
 
     getJobID = (job) => {
-        console.log('Job ID', job);
     }
 }
